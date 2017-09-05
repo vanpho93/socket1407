@@ -11,4 +11,11 @@ app.use(express.static('public'));
 app.get('/', (req, res) => res.render('home'));
 server.listen(3000, () => console.log('Server started!'));
 
-io.on('connection', (socket) => console.log(socket.id));
+// gui -- lang nghe
+
+io.on('connection', socket => {
+    // setInterval(() => socket.emit('SERVER_SEND_MESSAGE', Math.random()), 2000);
+    socket.on('CLIENT_SEND_MESSAGE', message => {
+        io.emit('SERVER_SEND_MESSAGE', message);
+    });
+});

@@ -5,12 +5,21 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <script src="socket.io/socket.io.js"></script>
-        <link href="css/style.css" rel="stylesheet">
+        <script src="jquery.js"></script>
     </head>
     <body>
         <h1>Khoa Pham Training</h1>
+        <input type="text" id="txtMessage" placeholder="Enter some message">
+        <br><br>
+        <button id="btnSend">Send Message</button>
     </body>
     <script>
         const socket = io();
+        socket.on('SERVER_SEND_MESSAGE', message => console.log(message));
+        $('#btnSend').click(() => {
+            const message = $('#txtMessage').val();
+            socket.emit('CLIENT_SEND_MESSAGE', message);
+            $('#txtMessage').val('');
+        });
     </script>
 </html>
