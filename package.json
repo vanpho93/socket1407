@@ -1,0 +1,8 @@
+{
+  "name": "socket1407",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/vanpho93/socket1407.git",
+  "author": "Van Pho Nguyen <vanpho02@gmail.com>",
+  "license": "MIT"
+}
