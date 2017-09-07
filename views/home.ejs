@@ -1,29 +1,61 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <title>Chat</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <script src="socket.io/socket.io.js"></script>
-        <script src="jquery.js"></script>
-    </head>
-    <body>
-        <h1>Khoa Pham Training</h1>
-        <input type="text" id="txtMessage" placeholder="Enter some message">
+
+<head>
+    <title>Chat</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="socket.io/socket.io.js"></script>
+    <script src="jquery.js"></script>
+    <style>
+        #div-chat {
+            display: flex;
+            flex-direction: row;
+        }
+        #list-user {
+            width: 100px;
+        }
+        #div-control {
+            margin: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Khoa Pham Training</h1>
+    <div id="div-sign-in">
+        <input type="text" id="txtUsername" placeholder="Enter your username">
         <br><br>
-        <button id="btnSend">Send Message</button>
-        <div id="list-message">
+        <button id="btnSignIn">Sign In</button>
+    </div>
+    <div id="div-chat">
+        <div id="div-control">
+            <input type="text" id="txtMessage" placeholder="Enter some message">
+            <br><br>
+            <button id="btnSend">Send Message</button>
         </div>
-    </body>
-    <script>
-        const socket = io();
-        socket.on('SERVER_SEND_MESSAGE', message => {
-            $('#list-message').append(`<p>${message}</p>`)
-        });
-        $('#btnSend').click(() => {
-            const message = $('#txtMessage').val();
-            socket.emit('CLIENT_SEND_MESSAGE', message);
-            $('#txtMessage').val('');
-        });
-    </script>
+        <div id="list-user">
+            <h4>List users:</h4>
+        </div>
+        <div id="list-message">
+            <h4>List messages:</h4>
+            <p>asds</p>
+            <p>asds</p>
+            <p>asds</p>
+        </div>
+    </div>
+</body>
+<script>
+    $('#div-chat').hide();
+    const socket = io();
+    socket.on('SERVER_SEND_MESSAGE', message => {
+        $('#list-message').append(`<p>${message}</p>`)
+    });
+    $('#btnSend').click(() => {
+        const message = $('#txtMessage').val();
+        socket.emit('CLIENT_SEND_MESSAGE', message);
+        $('#txtMessage').val('');
+    });
+</script>
+
 </html>
