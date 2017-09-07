@@ -20,14 +20,18 @@ $('#btnSignIn').click(() => {
 socket.on('SIGN_IN_SUCCESSFULLY', arrUsername => {
     $('#div-chat').show();
     $('#div-sign-in').hide();
-    arrUsername.forEach(username => $('#list-user').append(`<p>${username}</p>`));
+    arrUsername.forEach(username => $('#list-user').append(`<p id="user-${username}">${username}</p>`));
     socket.on('NEW_USER', username => {
-        $('#list-user').append(`<p>${username}</p>`);
+        $('#list-user').append(`<p id="user-${username}">${username}</p>`);
     });
 });
 
 socket.on('USERNAME_EXISTED', () => {
     alert('Username USERNAME_EXISTED!');
+});
+
+socket.on('USER_LEAVE', username => {
+    $(`#user-${username}`).remove();
 });
 
 // $('#id').remove();

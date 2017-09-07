@@ -15,19 +15,23 @@ const arrUsername = [];
 
 io.on('connection', socket => {
     socket.on('CLIENT_SEND_MESSAGE', message => {
-        io.emit('SERVER_SEND_MESSAGE', message);
+        io.emit('SERVER_SEND_MESSAGE', `${socket.username}: ${message}`);
     });
 
     socket.on('CLIENT_SIGN_IN', username => {
         const isExisted = arrUsername.indexOf(username) !== -1;
         if (isExisted) return socket.emit('USERNAME_EXISTED');
         socket.emit('SIGN_IN_SUCCESSFULLY', arrUsername);
+        socket.username = username;
         arrUsername.push(username);
         io.emit('NEW_USER', username);
     });
 
     socket.on('disconnect', () => {
-
+        if(!socket.username) return;
+        io.emit('USER_LEAVE', socket.username);
+        const index = arrUsername.indexOf(socket.username);
+        arrUsername.splice(index, 1);
     });
 });
 
