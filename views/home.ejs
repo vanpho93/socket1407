@@ -12,10 +12,14 @@
         <input type="text" id="txtMessage" placeholder="Enter some message">
         <br><br>
         <button id="btnSend">Send Message</button>
+        <div id="list-message">
+        </div>
     </body>
     <script>
         const socket = io();
-        socket.on('SERVER_SEND_MESSAGE', message => console.log(message));
+        socket.on('SERVER_SEND_MESSAGE', message => {
+            $('#list-message').append(`<p>${message}</p>`)
+        });
         $('#btnSend').click(() => {
             const message = $('#txtMessage').val();
             socket.emit('CLIENT_SEND_MESSAGE', message);
