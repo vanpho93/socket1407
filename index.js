@@ -21,8 +21,13 @@ io.on('connection', socket => {
     socket.on('CLIENT_SIGN_IN', username => {
         const isExisted = arrUsername.indexOf(username) !== -1;
         if (isExisted) return socket.emit('USERNAME_EXISTED');
+        socket.emit('SIGN_IN_SUCCESSFULLY', arrUsername);
         arrUsername.push(username);
-        socket.emit('SIGN_IN_SUCCESSFULLY');
+        io.emit('NEW_USER', username);
+    });
+
+    socket.on('disconnect', () => {
+
     });
 });
 

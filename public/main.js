@@ -17,11 +17,18 @@ $('#btnSignIn').click(() => {
     socket.emit('CLIENT_SIGN_IN', username);
 });
 
-socket.on('SIGN_IN_SUCCESSFULLY', () => {
+socket.on('SIGN_IN_SUCCESSFULLY', arrUsername => {
     $('#div-chat').show();
     $('#div-sign-in').hide();
+    arrUsername.forEach(username => $('#list-user').append(`<p>${username}</p>`));
+    socket.on('NEW_USER', username => {
+        $('#list-user').append(`<p>${username}</p>`);
+    });
 });
 
 socket.on('USERNAME_EXISTED', () => {
-    alert('Please choose another username');
+    alert('Username USERNAME_EXISTED!');
 });
+
+// $('#id').remove();
+
