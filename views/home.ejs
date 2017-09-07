@@ -39,23 +39,8 @@
         </div>
         <div id="list-message">
             <h4>List messages:</h4>
-            <p>asds</p>
-            <p>asds</p>
-            <p>asds</p>
         </div>
     </div>
 </body>
-<script>
-    $('#div-chat').hide();
-    const socket = io();
-    socket.on('SERVER_SEND_MESSAGE', message => {
-        $('#list-message').append(`<p>${message}</p>`)
-    });
-    $('#btnSend').click(() => {
-        const message = $('#txtMessage').val();
-        socket.emit('CLIENT_SEND_MESSAGE', message);
-        $('#txtMessage').val('');
-    });
-</script>
-
+<script src="main.js"></script>
 </html>

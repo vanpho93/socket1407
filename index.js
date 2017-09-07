@@ -17,6 +17,13 @@ io.on('connection', socket => {
     socket.on('CLIENT_SEND_MESSAGE', message => {
         io.emit('SERVER_SEND_MESSAGE', message);
     });
+
+    socket.on('CLIENT_SIGN_IN', username => {
+        const isExisted = arrUsername.indexOf(username) !== -1;
+        if (isExisted) return socket.emit('USERNAME_EXISTED');
+        arrUsername.push(username);
+        socket.emit('SIGN_IN_SUCCESSFULLY');
+    });
 });
 
 // Click sign in -> Gui username len server, server add username vao mang arrUsername 
