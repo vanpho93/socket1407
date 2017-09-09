@@ -37,6 +37,20 @@ io.on('connection', socket => {
         socket.to(id).emit('SERVER_SEND_MESSAGE', `${socket.username}: ${message}`);
     });
 
+    socket.on('CLIENT_JOIN_ROOM', roomName => {
+        if (socket.currentRoom) {
+            socket.leave(socket.currentRoom);
+        }
+        socket.join(roomName, () => {
+            socket.currentRoom = roomName;
+        });
+    });
+
+    socket.on('CLIENT_SEND_ROOM_MESSAGE', message => {
+        if(!socket.currentRoom) return;
+        io.in(socket.currentRoom).emit('SERVER_SEND_MESSAGE', `${socket.username}: ${message}`)
+    });
+
     socket.on('disconnect', () => {
         if(!socket.username) return;
         io.emit('USER_LEAVE', socket.username);

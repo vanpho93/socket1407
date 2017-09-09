@@ -46,10 +46,24 @@ $('#list-user').on('click', 'p', function() {
     $(this).addClass('active');
 });
 
+$('#list-room').on('click', 'p', function() {
+    $('#list-room p').removeClass('active');
+    $(this).addClass('active');
+    const roomName = $(this).text();
+    socket.emit('CLIENT_JOIN_ROOM', roomName);
+});
+
+
 $('#btnSendPrivate').click(() => {
     if (!remoteUsername) return alert('Ban phai chon mot nguoi de chat');
     const message = $('#txtMessage').val();
     socket.emit('CLIENT_SEND_PRIVATE_MESSAGE', { message, username: remoteUsername });
+    $('#txtMessage').val('');
+});
+
+$('#btnSendRoom').click(() => {
+    const message = $('#txtMessage').val();
+    socket.emit('CLIENT_SEND_ROOM_MESSAGE', message);
     $('#txtMessage').val('');
 });
 
