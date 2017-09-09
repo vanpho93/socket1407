@@ -34,5 +34,16 @@ socket.on('USER_LEAVE', username => {
     $(`#user-${username}`).remove();
 });
 
+// $('#list-user p').click(function() {
+//     console.log($(this).text());
+// });
+
+$('#list-user').on('click', 'p', function() {
+    // $(something).addClass('');
+    // console.log($(this).text());
+    $('#list-user p').removeClass('active');
+    $(this).addClass('active');
+});
+
 // $('#id').remove();
 

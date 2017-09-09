@@ -11,7 +11,7 @@ app.use(express.static('public'));
 app.get('/', (req, res) => res.render('home'));
 server.listen(3000, () => console.log('Server started!'));
 
-const arrUsername = [];
+const arrUsername = ['sss', 'dddd', 'assd', 'sdsad'];
 
 io.on('connection', socket => {
     socket.on('CLIENT_SEND_MESSAGE', message => {
