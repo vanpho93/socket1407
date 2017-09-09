@@ -1,6 +1,7 @@
 $('#div-chat').hide();
 
 const socket = io();
+let remoteUsername = null;
 
 socket.on('SERVER_SEND_MESSAGE', message => {
     $('#list-message').append(`<p>${message}</p>`)
@@ -40,9 +41,16 @@ socket.on('USER_LEAVE', username => {
 
 $('#list-user').on('click', 'p', function() {
     // $(something).addClass('');
-    // console.log($(this).text());
+    remoteUsername = $(this).text();
     $('#list-user p').removeClass('active');
     $(this).addClass('active');
+});
+
+$('#btnSendPrivate').click(() => {
+    if (!remoteUsername) return alert('Ban phai chon mot nguoi de chat');
+    const message = $('#txtMessage').val();
+    socket.emit('CLIENT_SEND_PRIVATE_MESSAGE', { message, username: remoteUsername });
+    $('#txtMessage').val('');
 });
 
 // $('#id').remove();

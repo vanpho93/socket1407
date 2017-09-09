@@ -11,7 +11,8 @@ app.use(express.static('public'));
 app.get('/', (req, res) => res.render('home'));
 server.listen(3000, () => console.log('Server started!'));
 
-const arrUsername = ['sss', 'dddd', 'assd', 'sdsad'];
+const arrUsername = [];
+const arrSockets = [];
 
 io.on('connection', socket => {
     socket.on('CLIENT_SEND_MESSAGE', message => {
@@ -24,7 +25,16 @@ io.on('connection', socket => {
         socket.emit('SIGN_IN_SUCCESSFULLY', arrUsername);
         socket.username = username;
         arrUsername.push(username);
+        arrSockets.push(socket);
         io.emit('NEW_USER', username);
+    });
+
+    socket.on('CLIENT_SEND_PRIVATE_MESSAGE', msgObj => {
+        const { message, username } = msgObj;
+        const index = arrSockets.findIndex(aSocket => aSocket.username === username);
+        const { id } = arrSockets[index];
+        socket.emit('SERVER_SEND_MESSAGE', `${socket.username}: ${message}`);
+        socket.to(id).emit('SERVER_SEND_MESSAGE', `${socket.username}: ${message}`);
     });
 
     socket.on('disconnect', () => {
